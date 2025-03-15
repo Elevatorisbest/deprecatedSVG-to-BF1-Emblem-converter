@@ -162,7 +162,7 @@ def generate_js_code(svg_path, gateway_session_id):
     json_payload = svg_to_battlefield(svg_path)
     if json_payload:
 
-      js_code = f"""var request=new XMLHttpRequest;request.open("POST","https://companion-api.battlefield.com/jsonrpc/web/api?Emblems.newPrivateEmblem",!0),request.onreadystatechange=function(){{if(request.readyState==XMLHttpRequest.DONE){{var e=JSON.parse(request.responseText);if(e.result){{window.location.href=window.location.href.replace("/new","/edit/")+e.result.slot}}else{{alert("Error")}}}}}},request.setRequestHeader("Content-Type","application/json;charset=UTF-8"),request.setRequestHeader("X-GatewaySession",localStorage.gatewaySessionId);var data={json_payload};request.send(JSON.stringify(data));"""
+      js_code = f"""var request=new XMLHttpRequest;request.open("POST","https://companion-api.battlefield.com/jsonrpc/web/api?Emblems.newPrivateEmblem",!0),request.onreadystatechange=function(){{if(request.readyState==XMLHttpRequest.DONE){{var e=JSON.parse(request.responseText);if(e.result){{window.location.href=window.location.href.replace("/new","/edit/")+e.result.slot}}else{{alert("Error")}}}}}},request.setRequestHeader("Content-Type","application/json;charset=UTF-8"),request.setRequestHeader("X-GatewaySession","{gateway_session_id}");var data={json_payload};request.send(JSON.stringify(data));"""
       return js_code
     else:
         return None
@@ -170,6 +170,7 @@ def generate_js_code(svg_path, gateway_session_id):
 # --- Example Usage ---
 if __name__ == "__main__":
     svg_file = "your_emblem.svg"  # Replace with your SVG file
+    gateway_id = "YOUR_GATEWAY_SESSION_ID"  # Replace with your actual ID
     javascript_code = generate_js_code(svg_file, gateway_id)
     if javascript_code:
         with open("emblem_script.txt", "w") as txt_file:  # Save the code to a .txt file
